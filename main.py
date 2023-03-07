@@ -1,9 +1,3 @@
-# micropython-easynetwork
-更方便地接入和管理 wlan 网络
-
-
-### 使用示例
-```python
 # 示例：创建 AP #
 from libs.easynetwork import AP
 
@@ -27,8 +21,3 @@ print(client.scan())
 client.disconnect()
 
 # 其他详细参数详见源码，随便写的库，只是希望调用时的代码短一点
-```
-
-### 其他
-
-交流QQ群：[748103265](https://jq.qq.com/?_wv=1027&k=I74bKifU)
