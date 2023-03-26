@@ -50,6 +50,7 @@ class AP:
 class Client:
     def __init__(self, delay: int = 1000, retry: int = 10):
         self.wlan = network.WLAN(network.STA_IF)
+        self.ssid = None
         self.delay = delay
         self.retry = retry
 
@@ -69,6 +70,28 @@ class Client:
         else:
             return self.wlan.scan()
 
+    def status(self) -> str:
+        """
+        获取网络连接状态
+        """
+        result = self.wlan.status()
+        if result == network.STAT_IDLE:
+            return 'not_connected'
+        elif result == network.STAT_CONNECTING:
+            return 'connecting'
+        elif result == network.STAT_GOT_IP:
+            return 'connected'
+        elif result == network.STAT_NO_AP_FOUND:
+            return 'no_ap_found'
+        elif result == network.STAT_WRONG_PASSWORD:
+            return 'wrong_password'
+        elif result == network.STAT_ASSOC_FAIL:
+            return 'assoc_fail'
+        elif result == network.HANDSHAKE_TIMEOUT:
+            return 'handshake_timeout'
+        else:
+            return 'unknown'
+        
     def connect(self, ssid: str, password: str = None):
         """
         连接无线网络
@@ -81,15 +104,25 @@ class Client:
             Tuple[str]: 连接成功或已连接，网络连接信息
             None: 连接失败
         """
-        if not self.wlan.isconnected():
+        if not self.wlan.isconnected() or self.ssid != ssid:
+            if self.ssid != ssid:
+                self.disconnect()
             self.wlan.active(True)  # 开启wifi接口
-            self.wlan.connect(ssid, password)
+            if password and len(password) < 8:
+                print("[ERROR] The password length should not be less than 8.")
+                return None
+            try:
+                self.wlan.connect(ssid, password)
+            except OSError:
+                print("[ERROR] Wireless network connection failed, please check the wireless network!")
+                return None
             for i in range(self.retry):
                 if self.wlan.isconnected():  # 网络是否已连接
+                    self.ssid = ssid
                     return self.wlan.ifconfig()  # 输出当前 wifi 网络给自己分配的网络参数
                     # ('192.168.1.100', '255.255.255.0', '192.168.1.1', '8.8.8.8')
                 else:
-                    print("[WARN] Wireless network connection failed, Trying again({}/{})".format(
+                    print("[WARN] Wireless network connection failed, Trying again {}/{}".format(
                         i + 1, self.retry)
                     )
                     time.sleep_ms(self.delay)
@@ -111,6 +144,7 @@ class Client:
         if self.wlan.isconnected():  # 如果连接了网络则断开连接
             self.wlan.disconnect()
             self.wlan.active(False)  # 关闭wifi接口
+            self.ssid = None
             return True
         else:
             return False
