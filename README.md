@@ -1,6 +1,10 @@
 # micropython-easynetwork
 更简单地接入和管理 `micropython` 的 `wlan` 网络
 
+### 支持的硬件
+- esp8266（micropython 1.20）
+- esp32c3（micropython 1.19）
+- 其他尚未测试
 
 ### 使用示例
 ```python
