@@ -17,7 +17,11 @@ client.connect('WIFI_SSID', 'password')  # SSID 为 WIFI 名，password 为密�
 print(client.scan())
 # [(b'QWERTY', b'\xfc\xa0Z\x03\r\xf6', 6, -29, 4, False), (b'UIOP_2G', b'\x94\x83\xc4"(\xf5', 6, -30, 3, False)]
 
+# 检查网络是否已连接
+print(client.isconnected())
+# True
+
 # 断开网络
 client.disconnect()
 
-# 其他详细参数详见源码，随便写的库，只是希望调用时的代码短一点
+# 其他详细参数详见源码，随便写的库，只是希望调用时方便一点（）
