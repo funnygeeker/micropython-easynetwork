@@ -1,42 +1,49 @@
+[简体中文 (Chinese)](./README.ZH-CN.md)
 # micropython-easynetwork
-更简单地接入和管理 `micropython` 的 `wlan` 网络
 
-### 支持的硬件
-- esp8266（micropython 1.20）
-- esp32c3（micropython 1.19）
-- 其他尚未测试
+Simplified access and management of WLAN networks in Micropython.
 
-### 使用示例
+![EasyNetwork](./EasyNetwork_256px.png)
+
+### Description
+
+Based on the original `network` module, this library simplifies some of the cumbersome operations, such as:
+
+- Documentation for the original module can be inconvenient to access, but with this library, the documentation is included as code comments.
+- Prior to using certain features, the original module requires calling `active(True)`. Now, with this library, it's not necessary as the program will automatically handle it.
+- As a client: Previously, when connected to a WLAN network, attempting to connect to another network would result in an error. The library simplifies this process by allowing direct switching of networks using `connect('ssid', 'password')`.
+- As an access point (AP): When using an encrypted SSID, the original module required setting the `key` before setting the `security`. However, with this library, it's possible to directly set the `ssid` and `key`.
+
+### Firmware Version Requirement
+
+- Micropython 1.20 or higher
+
+### Usage Example
+
 ```python
-# 示例：创建 AP #
+# Example: Creating an access point (AP) #
 from libs.easynetwork import AP
 
-# 创建AP
+# Create an AP
 ap = AP()
-ap.create('WIFI_SSID', 'password')  # SSID 为 WIFI 名，password 为密码，不填写密码则为开放网络
+ap.config(ssid='ssid', key='password')  # SSID is the network name, key is the password. If no password is provided, the network is open. If password is specified, it is automatically set as an encrypted network.
+ap.config(key='password2')  # Change the password
+ap.config(key='')  # Disable the password
+ap.active(False)  # Disable the AP
 
-# 关闭AP
-ap.close()
-
-# 示例：连接网络 #
+# Example: Connecting to a network #
 from libs.easynetwork import Client
-client = Client()
-client.connect('WIFI_SSID', 'password')  # SSID 为 WIFI 名，password 为密码，开放网络无需填写密码参数
 
-# 扫描无线网络（此处为示例，实际连接时按需使用）
+# Scan for wireless networks (example)
 print(client.scan())
-# [(b'QWERTY', b'\xfc\xa0Z\x03\r\xf6', 6, -29, 4, False), (b'UIOP_2G', b'\x94\x83\xc4"(\xf5', 6, -30, 3, False)]
 
-# 检查网络是否已连接
+# [(b'QWERTY', b'\xfc\xa0Z\x03\r\xf6', 6, -29, 4, False), (b'UIOP_2G', b'\x94\x83\xc4"(\xf5', 6, -30, 3, False)
+client.connect('ssid', 'password')  # For an open network, no password parameter is required or password can be left empty.
+
+# Check if the network is connected
 print(client.isconnected())
 # True
 
-# 断开网络
+# Disconnect from the network
 client.disconnect()
-
-# 其他详细参数详见源码，随便写的库，只是希望调用时方便一点（）
 ```
-
-### 其他
-
-交流QQ群：[748103265](https://jq.qq.com/?_wv=1027&k=I74bKifU)
