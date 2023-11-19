@@ -29,6 +29,7 @@ ap = AP()
 ap.config(ssid='ssid', key='password')  # SSID is the network name, key is the password. If no password is provided, the network is open. If password is specified, it is automatically set as an encrypted network.
 ap.config(key='password2')  # Change the password
 ap.config(key='')  # Disable the password
+ap.active(True)  # Enable the AP
 ap.active(False)  # Disable the AP
 
 # Example: Connecting to a network #

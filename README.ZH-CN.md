@@ -23,6 +23,7 @@ ap = AP()
 ap.config(ssid='ssid', key='password')  # SSID 为 WIFI 名称，key 为密码，不填写密码则为开放网络，填写自动设置为加密网络
 ap.config(key='password2')  # 修改密码
 ap.config(key='')  # 禁用密码
+ap.active(True)  # 启用AP
 ap.active(False)  # 关闭AP
 
 # 示例：连接网络 #
