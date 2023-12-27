@@ -22,7 +22,7 @@ Based on the original `network` module, this library simplifies some of the cumb
 
 ```python
 # Example: Creating an access point (AP) #
-from libs.easynetwork import AP
+from lib.easynetwork import AP
 
 # Create an AP
 ap = AP()
@@ -33,7 +33,7 @@ ap.active(True)  # Enable the AP
 ap.active(False)  # Disable the AP
 
 # Example: Connecting to a network #
-from libs.easynetwork import Client
+from lib.easynetwork import Client
 
 # Scan for wireless networks (example)
 print(client.scan())

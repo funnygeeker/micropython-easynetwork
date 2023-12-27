@@ -16,7 +16,7 @@
 ### 使用示例
 ```python
 # 示例：创建 AP #
-from libs.easynetwork import AP
+from lib.easynetwork import AP
 
 # 创建AP
 ap = AP()
@@ -27,7 +27,7 @@ ap.active(True)  # 启用AP
 ap.active(False)  # 关闭AP
 
 # 示例：连接网络 #
-from libs.easynetwork import Client
+from lib.easynetwork import Client
 client = Client()
 
 # 扫描无线网络（此处为示例，实际连接时按需使用）
